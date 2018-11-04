@@ -7,7 +7,7 @@ import (
 	"os"
 
 	"github.com/mgutz/ansi"
-	"github.com/mlafeldt/pkgcloud"
+	"github.com/tonylambiris/pkgcloud"
 )
 
 var usage = "Usage: pkgcloud-push user/repo[/distro/version] /path/to/packages\n"
@@ -35,7 +35,7 @@ func main() {
 	resc := make(chan string)
 	errc := make(chan error)
 
-	fmt.Printf("Pushing %s%d%s package(s) to %s ...\n", ansi.ColorCode("cyan"), ansi.ColorCode("reset"), len(packages), target)
+	fmt.Printf("Pushing %s%d%s package(s) to %s ...\n", ansi.ColorCode("cyan"), len(packages), ansi.ColorCode("reset"), target)
 	for _, pkg := range packages {
 		go func(pkg string) {
 			if err := client.CreatePackage(target.repo, target.distro, pkg); err != nil {

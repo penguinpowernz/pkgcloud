@@ -6,7 +6,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/mlafeldt/pkgcloud"
+	"github.com/mgutz/ansi"
+	"github.com/tonylambiris/pkgcloud"
 )
 
 var usage = "Usage: pkgcloud-yank user/repo[/distro/version] /path/to/packages\n"
@@ -34,7 +35,7 @@ func main() {
 	resc := make(chan string)
 	errc := make(chan error)
 
-	fmt.Printf("Yanking %d package(s) from %s ...\n", len(packages), target)
+	fmt.Printf("Yanking %s%d%s package(s) from %s ...\n", ansi.ColorCode("cyan"), len(packages), ansi.ColorCode("reset"), target)
 	for _, pkg := range packages {
 		go func(pkg string) {
 			if err := client.Destroy(target.repo+"/"+target.distro, pkg); err != nil {
