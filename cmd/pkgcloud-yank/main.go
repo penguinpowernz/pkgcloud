@@ -6,11 +6,10 @@ import (
 	"log"
 	"os"
 
-	"github.com/mgutz/ansi"
 	"github.com/mlafeldt/pkgcloud"
 )
 
-var usage = "Usage: pkgcloud-push user/repo[/distro/version] /path/to/packages\n"
+var usage = "Usage: pkgcloud-yank user/repo[/distro/version] /path/to/packages\n"
 
 func main() {
 	log.SetFlags(0)
@@ -35,13 +34,14 @@ func main() {
 	resc := make(chan string)
 	errc := make(chan error)
 
-	fmt.Printf("Pushing %s%d%s package(s) to %s ...\n", ansi.ColorCode("cyan"), ansi.ColorCode("reset"), len(packages), target)
+	fmt.Printf("Yanking %d package(s) from %s ...\n", len(packages), target)
 	for _, pkg := range packages {
 		go func(pkg string) {
-			if err := client.CreatePackage(target.repo, target.distro, pkg); err != nil {
+			if err := client.Destroy(target.repo+"/"+target.distro, pkg); err != nil {
 				errc <- fmt.Errorf("%s ... %s", pkg, err)
 				return
 			}
+			fmt.Sprintf("%s/%s %s", target.repo, target.distro, pkg)
 			resc <- fmt.Sprintf("%s ... OK", pkg)
 		}(pkg)
 	}
