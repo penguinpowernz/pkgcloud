@@ -41,12 +41,14 @@ func main() {
 	)
 	for _, pkg := range packages {
 		go func(pkg string) {
-			remote := fmt.Sprintf("%s%s%s", ansi.White, path.Base(pkg), ansi.Reset)
-			if err := client.Destroy(target.repo+"/"+target.distro, path.Base(pkg)); err != nil {
-				errc <- fmt.Errorf("%s ... %s%s%s", remote, ansi.Magenta, err, ansi.Reset)
+			pkgbase := path.Base(pkg)
+			pkgname := fmt.Sprintf("%s%s%s", ansi.White, pkgbase, ansi.Reset)
+
+			if err := client.Destroy(target.repo+"/"+target.distro, pkgbase); err != nil {
+				errc <- fmt.Errorf("%s ... %s%s%s", pkgname, ansi.Magenta, err, ansi.Reset)
 				return
 			}
-			resc <- fmt.Sprintf("%s ... %sOK%s", remote, ansi.Green, ansi.Reset)
+			resc <- fmt.Sprintf("%s ... %sOK%s", pkgname, ansi.Green, ansi.Reset)
 		}(pkg)
 	}
 

@@ -41,12 +41,23 @@ func main() {
 	)
 	for _, pkg := range packages {
 		go func(pkg string) {
-			remote := fmt.Sprintf("%s%s%s", ansi.White, path.Base(pkg), ansi.Reset)
-			if err := client.CreatePackage(target.repo, target.distro, pkg); err != nil {
-				errc <- fmt.Errorf("%s ... %s%s%s", remote, ansi.Magenta, err, ansi.Reset)
+			pkgbase := path.Base(pkg)
+			pkgname := fmt.Sprintf("%s%s%s", ansi.White, pkgbase, ansi.Reset)
+
+			pkgs, err := client.Search(target.repo, pkgbase, "", target.distro, 0)
+			if err != nil {
+				errc <- fmt.Errorf("%s ... %s%s%s", pkgname, ansi.Magenta, err, ansi.Reset)
+				return
+			} else if len(pkgs) == 1 && pkgs[0].Filename == pkgbase {
+				errc <- fmt.Errorf("%s ... %s%s%s", pkgname, ansi.Magenta, "package already exists", ansi.Reset)
 				return
 			}
-			resc <- fmt.Sprintf("%s ... %sOK%s", remote, ansi.Green, ansi.Reset)
+
+			if err := client.CreatePackage(target.repo, target.distro, pkg); err != nil {
+				errc <- fmt.Errorf("%s ... %s%s%s", pkgname, ansi.Magenta, err, ansi.Reset)
+				return
+			}
+			resc <- fmt.Sprintf("%s ... %sOK%s", pkgname, ansi.Green, ansi.Reset)
 		}(pkg)
 	}
 
