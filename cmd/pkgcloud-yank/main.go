@@ -44,7 +44,7 @@ func main() {
 			pkgbase := path.Base(pkg)
 			pkgname := fmt.Sprintf("%s%s%s", ansi.White, pkgbase, ansi.Reset)
 
-			if err := client.Destroy(target.repo+"/"+target.distro, pkgbase); err != nil {
+			if err := client.Destroy(target.String(), pkgbase); err != nil {
 				errc <- fmt.Errorf("%s ... %s%s%s", pkgname, ansi.Magenta, err, ansi.Reset)
 				return
 			}
