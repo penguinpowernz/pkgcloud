@@ -95,4 +95,10 @@ var supportedDistros = map[string]int{
 	"sles/12.3":            192,
 	"elementaryos/loki":    193,
 	"fedora/28":            194,
+	"linuxmint/tara":       195,
+	"opensuse/15.0":        196,
+	"opensuse/15.1":        197,
+	"sles/15.0":            198,
+	"ubuntu/cosmic":        199,
+	"elementaryos/juno":    200,
 }

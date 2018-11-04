@@ -1,7 +1,7 @@
-all: test generate build
+all: test build
 
 test:
-	go test -v ./...
+	go test -v $(go list ./... | grep -v /vendor/)
 
 generate:
 	go generate -x ./...
