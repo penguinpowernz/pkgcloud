@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path"
 
 	"github.com/mgutz/ansi"
 	"github.com/tonylambiris/pkgcloud"
@@ -35,15 +36,17 @@ func main() {
 	resc := make(chan string)
 	errc := make(chan error)
 
-	fmt.Printf("Yanking %s%d%s package(s) from %s ...\n", ansi.ColorCode("cyan"), len(packages), ansi.ColorCode("reset"), target)
+	fmt.Printf("Yanking %s%d%s package(s) from %s%s%s ...\n",
+		ansi.Yellow, len(packages), ansi.Reset, ansi.Cyan, target, ansi.Reset,
+	)
 	for _, pkg := range packages {
 		go func(pkg string) {
-			if err := client.Destroy(target.repo+"/"+target.distro, pkg); err != nil {
-				errc <- fmt.Errorf("%s ... %s", pkg, err)
+			remote := fmt.Sprintf("%s%s%s", ansi.White, path.Base(pkg), ansi.Reset)
+			if err := client.Destroy(target.repo+"/"+target.distro, path.Base(pkg)); err != nil {
+				errc <- fmt.Errorf("%s ... %s%s%s", remote, ansi.Magenta, err, ansi.Reset)
 				return
 			}
-			fmt.Sprintf("%s/%s %s", target.repo, target.distro, pkg)
-			resc <- fmt.Sprintf("%s ... OK", pkg)
+			resc <- fmt.Sprintf("%s ... %sOK%s", remote, ansi.Green, ansi.Reset)
 		}(pkg)
 	}
 
