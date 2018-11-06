@@ -10,10 +10,8 @@ generate:
 
 build:
 	mkdir -p bin/
-	go build -o bin/pkgcloud-push $(BUILDFLAGS) \
-		github.com/tonylambiris/pkgcloud/cmd/pkgcloud-push
-	go build -o bin/pkgcloud-yank $(BUILDFLAGS) \
-		github.com/tonylambiris/pkgcloud/cmd/pkgcloud-yank
+	go build -o bin/pkgcloud $(BUILDFLAGS) \
+		github.com/tonylambiris/pkgcloud/cmd/pkgcloud
 
 clean:
-	rm -f bin/pkgcloud-push bin/pkgcloud-yank
+	rm -f bin/pkgcloud
