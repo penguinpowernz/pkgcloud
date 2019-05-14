@@ -11,7 +11,7 @@ generate:
 build:
 	mkdir -p bin/
 	go build -o bin/pkgcloud $(BUILDFLAGS) \
-		github.com/tonylambiris/pkgcloud/cmd/pkgcloud
+		github.com/penguinpowernz/pkgcloud/cmd/pkgcloud
 
 clean:
 	rm -f bin/pkgcloud

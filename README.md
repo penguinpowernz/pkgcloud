@@ -4,11 +4,11 @@ Talk to the [packagecloud API](https://packagecloud.io/docs/api), in Go.
 
 ## Installation
 
-    $ go get github.com/tonylambiris/pkgcloud/...
+    $ go get github.com/penguinpowernz/pkgcloud/...
 
 ## API Usage
 
-See [Godoc](https://godoc.org/github.com/tonylambiris/pkgcloud) and
+See [Godoc](https://godoc.org/github.com/penguinpowernz/pkgcloud) and
 [pkgcloud.go](pkgcloud.go) to learn about the API.
 
 ## Client Usage

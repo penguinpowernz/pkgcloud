@@ -8,7 +8,7 @@ import (
 	"path"
 
 	"github.com/mgutz/ansi"
-	"github.com/tonylambiris/pkgcloud"
+	"github.com/penguinpowernz/pkgcloud"
 )
 
 var usage = "Usage: pkgcloud <push/yank> user/repo[/distro/version] /path/to/packages\n"
